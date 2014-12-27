@@ -12,11 +12,17 @@ import (
 func main() {
 	// Parse flags
 	decryptVar := flag.Bool("d", false, "Decrypt mode")
+	passphraseVar := flag.String("p", "", "Passphrase")
 	flag.Parse()
 	decrypt := *decryptVar
+	passphrase := *passphraseVar
+
+	if len(passphrase) < 3 || len(passphrase) > 32 {
+		panic("Passphrase must be between 3 and 32 characters")
+	}
 
 	// Setup AES
-	key := []byte("pecman123")
+	key := []byte(passphrase)
 
 	for len(key) < 32 {
 		key = append(key, byte(0))
